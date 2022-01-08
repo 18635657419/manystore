@@ -22,6 +22,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                 url: $.fn.bootstrapTable.defaults.extend.index_url,
                 pk: 'gropu_id',
                 sortName: 'gropu_id',
+                searchFormVisible:true,
                 columns: [
                     [
                         {checkbox: true},

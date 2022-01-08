@@ -22,13 +22,14 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                 url: $.fn.bootstrapTable.defaults.extend.index_url,
                 pk: 'pp_id',
                 sortName: 'pp_id',
+                searchFormVisible:true,
                 columns: [
                     [
                         {checkbox: true},
                         {field: 'pp_id', title: __('Pp_id')},
                         {field: 'ppaccount', title: __('Ppaccount'), operate: 'LIKE'},
                         {field: 'b_domain', title: __('B站域名'), operate: 'LIKE'},
-                        {field: 'status', title: __('Status'), searchList: {"on":__('Status on'),"off":__('Status off'),"limited":__('Status limited'),"limited180":__('Status limited180')}, formatter: Table.api.formatter.status},
+                        {field: 'status', title: __('Status'), searchList: {"on":__('Status on'),"off":__('Status off'),"limited":__('Status limited'),"limited180":__('Status limited180'),"offline":__('Status Offline')}, formatter: Table.api.formatter.status},
                         {field: 'totalorder', title: __('Totalorder'), operate:'BETWEEN'},
                         {field: 'totalamount', title: __('Totalamount'), operate:'BETWEEN'},
                         {field: 'orderbyday', title: __('Orderbyday'), operate:'BETWEEN'},
