@@ -46,10 +46,13 @@ class Index extends Api
 		}
 		
 		$product_info = $this->parseOrderinfo($params);
+		$payment_orderid = "";
 		$existsOrder = Db::table("pporder")->where('proxy_order_id', $proxy_order_id)->where("order_uuid" , $product_info['order_uuid'])->find();
+		$b_domain_url = "";
 		$account = [];
 		if($existsOrder){
 			//添加可用判断为防止管理员手动关闭帐号后，还能进款
+			$payment_order_id = $existsOrder['order_id'];
 			$account = Db::table("ppaccount")->where('status', 'on')->where("pp_id", $existsOrder['pp_id'])->find();;
 		}
 		if(! $account){
@@ -113,18 +116,46 @@ class Index extends Api
 			$order_data['phone'] = $product_info['phone'];
 			$order_data['create_raw_data'] = json_encode($params);
 			$order_data['updatedate'] = date("Y-m-d H:i:s");
-			Db::table("pporder")->insert($order_data);
+			$payment_order_id = Db::table("pporder")->insert($order_data);
 
 		}
-		$b_domain_url = "";
-
-		if( $account['b_domain']){
+		if($account['b_domain']){
 			$b_domain_url = str_replace("{b_domain}", $account['b_domain'], $this->b_domain_url);
+
 		}
 		$this->success("ok", [
 				"email" => $account['ppaccount'],
 				'b_domain_url' => $b_domain_url,
+				'payment_order_id' => $product_info['order_uuid'],
 				]);
+
+	}
+	public function checkv2(){
+		$request = Request::instance();
+		$params = $request->param();
+		$payment_order_id = isset($params['payment_order_id']) ? $params['payment_order_id'] : "";
+
+		$exists_order = Db::table("pporder")->where('status', 'ing')->where("order_uuid", $payment_order_id)->find();
+		$host = $params['host'];
+		$host = str_replace("www.", "", $host);
+
+		if($exists_order ){
+			Db::table("pporder")->where('order_id', $exists_order['order_id'])->update(['step' => 'jumptob']);
+			$exists_paypal = Db::table("ppaccount")->where("pp_id", $exists_order['pp_id'])->find();
+			$params = json_decode($exists_order['create_raw_data'], true);
+			$params['return'] = str_replace($exists_order['storename'], $host, $params['return']);
+			$params['cancel_return'] = str_replace($exists_order['storename'], $host, $params['cancel_return']);
+			$params['notify_url'] = str_replace($exists_order['storename'], $host, $params['notify_url']);
+			$params['business'] = $exists_paypal['ppaccount'];
+			unset($params['token']);
+			$this->success('ok', $params);
+
+		}
+		$this->errorlog("B站跳转失败#2", "", "", json_encode($params));
+		$this->error("error");
+
+
+
 
 	}
 
@@ -185,6 +216,7 @@ class Index extends Api
 			$this->success('ok', json_decode($exists_order['create_raw_data'], true));
 
 		}
+		$this->errorlog("error  #11", "", "", json_encode($params));
 		$this->error("error #11");
 	
 	}
@@ -250,8 +282,12 @@ class Index extends Api
 			if(strpos($key, "item_name") !== false){
 				$amount_key = "amount_" . $item_key;
 				$quantity_key = "quantity_" . $item_key;
+				$shipping_key = 'shipping_' . $item_key;
 				$product_name .= $data[$quantity_key] . " x " . $info . " "; 
 				$amount += $data[$quantity_key] * $data[$amount_key];
+				if(isset($data[$shipping_key])){
+					$amount += $data[$shipping_key];
+				}
 				$item_key++;
 			
 			}
