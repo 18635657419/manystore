@@ -8,6 +8,7 @@ use think\Db;
 use \PhpImap\Mailbox;
 class Mailtask extends Command
 {
+    //cd /www/wwwroot/ppmanage.meefard.com && php think Mailtask
 	public $paypal_status = [
 		'您无法再使用PayPal开展业务了' => "limited180"
 	
@@ -49,7 +50,6 @@ class Mailtask extends Command
 			$subject = (string) $email->subject;
 			foreach($this->paypal_status as $keyword =>  $status){
 				if(strpos($subject, $keyword) !==  false){
-					$fromemail = "test@gmail.com";
 					Db::table("ppaccount")->where("ppaccount", $fromemail)->update(['status' => 'limited180']);
 				}
 				
