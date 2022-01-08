@@ -282,21 +282,26 @@ class Index extends Api
         $pp_account_id = $pp_account_for_order['pp_id'];
 
 
+
         if($pp_account_id){
             $pp_account_order_list = Db::table("pporder")->where('pp_id', $pp_account_id)->select();
             $save_data = [];
+
             $date = date('Y-m-d H:i:s');
+
+
             //收款统计
             $success_order_qty = 0;
             $success_total = 0;
             $unpaid_total = 0;
             $unpaid_order_qty = 0;
-            $first_order_date = $date;
             $end_order_date = $date;
             foreach ($pp_account_order_list as $order){
                 if(in_array($order['status'], ['plated', 'pendding'])){
                     $success_order_qty += 1;
                     $success_total += $order['amount'];
+                    //第一笔订单
+
                 }else{
                     $unpaid_total += $order['amount'];
                     $unpaid_order_qty += 1;
@@ -311,9 +316,11 @@ class Index extends Api
                 'end_order_date' => $end_order_date,
             ];
 
-            if(count($pp_account_order_list) == 1 ){
-                $save_data['first_order_date'] = $first_order_date;
+            if(count($pp_account_order_list) == 1 && in_array($order_status, ['plated', 'pendding'] )){
+
+                $save_data['first_order_date'] = $date;
             }
+
 
 
             Db::table("ppstatistics")->where('account_id', $pp_account_id)->update($save_data);
@@ -380,8 +387,8 @@ class Index extends Api
         $store_url_info = parse_url($data['return']);
         $custom = str_replace("&quot;", '"', $data['custom']);
 
-//        $order_uuid = $custom;
-        $order_uuid = json_decode($custom, true);
+        $order_uuid = $custom;
+//        $order_uuid = json_decode($custom, true);
 
         return [
             'productname' => $product_name,
