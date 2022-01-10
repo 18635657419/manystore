@@ -9,7 +9,7 @@ use app\common\controller\Backend;
  *
  * @icon fa fa-circle-o
  */
-class Ppstatistics extends Backend
+class Ppblock extends Backend
 {
     
     /**
@@ -21,7 +21,7 @@ class Ppstatistics extends Backend
     public function _initialize()
     {
         parent::_initialize();
-        $this->model = new \app\admin\model\Ppstatistics;
+        $this->model = new \app\admin\model\Ppblock;
     }
 
     public function import()
@@ -53,14 +53,12 @@ class Ppstatistics extends Backend
             list($where, $sort, $order, $offset, $limit) = $this->buildparams();
 
             $list = $this->model
-                    ->with(['ppaccount'])
+                    ->with(['domainmanage'])
                     ->where($where)
                     ->order($sort, $order)
                     ->paginate($limit);
             foreach ($list as $row) {
-                $row['success_rate'] =  round($row['success_order_qty']/$row['order_qty'],2) * 100 ."%"; //成功率
-                $row['period']  = floor((strtotime($row['end_order_date'])-strtotime($row['first_order_date']))/86400) == 0 ? 1:floor((strtotime($row['end_order_date'])-strtotime($row['first_order_date']))/86400);// 收款周期
-               
+              
             }
 
             $result = array("total" => $list->total(), "rows" => $list->items());

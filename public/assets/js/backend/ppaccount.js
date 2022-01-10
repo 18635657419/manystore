@@ -16,13 +16,19 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
             });
 
             var table = $("#table");
+            let canshu = location.search
+            let show_type = true
+            if(canshu.indexOf("show_type") != -1 ){
+              show_type = false
+              $(".fixed-table-toolbar").hide()
+            }
 
             // 初始化表格
             table.bootstrapTable({
                 url: $.fn.bootstrapTable.defaults.extend.index_url,
                 pk: 'pp_id',
                 sortName: 'pp_id',
-                searchFormVisible:true,
+                searchFormVisible:show_type,
                 columns: [
                     [
                         {checkbox: true},
@@ -37,8 +43,8 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                         {field: 'allamount', title: __('总收入'), operate:'BETWEEN'},
                         {field: 'todayamount', title: __('今日收入'), operate:'BETWEEN'},
                         {field: 'fail_count', title: __('付款失败次数'), operate:'BETWEEN'},
-                        {field: 'block_remarks', title: __('导入备注'), operate:'BETWEEN'},
                         {field: 'block_number', title: __('导入批号'), operate:'LIKE'},
+                        {field: 'remark', title: __('remark'), operate:'LIKE'},
                         {field: 'createdate', title: __('Createdate'), operate:'RANGE', addclass:'datetimerange', autocomplete:false},
                         {field: 'domainmanage.name', title: __('域名'),searchable:false,},
                         {field: 'offline_day_value', title: __('下线天数配置'),searchable:false,},
@@ -46,12 +52,15 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                     ]
                 ]
             });
+            if(canshu.indexOf("show_type") != -1 ){
+                $(".fixed-table-toolbar").hide()
+            }
 
             $("#Import").click(function(){
                 layer.prompt({
                     formType: 2,
                     placeholder: '提示信息',
-                    title: '导入格式： pp账号-域名-公钥-私钥   一行一个账号，多个账号请回车换行',
+                    title: '导入格式： pp账号,域名,公钥,私钥   一行一个账号，多个账号请回车换行',
                     maxlength:10000,
                     area: ['800px', '350px'] //自定义文本域宽高
                   }, function(value, index, elem){
@@ -97,11 +106,11 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                                 "<input type='number' style='margin: 10px 32px;' id='totalamount' type='text' class='layui-layer-input' value='' placeholder='总金额'>"+
                                 "<input type='number' style='margin: 10px 32px;' id='orderbyday' type='text' class='layui-layer-input' value='' placeholder='每天总订单'>"+
                                 "<input type='number' style='margin: 10px 32px;' id='amountbyday' type='text' class='layui-layer-input' value='' placeholder='每天总金额'>"+
-                                "<input style='margin: 10px 32px;' id='block_remarks' type='text' class='layui-layer-input' value='' placeholder='导入备注'></div>"
+                                "</div>"
                             layer.open({
                                 type: 1 //Page层类型
                                 ,btn:["确定","取消"]
-                                ,area: ['800px', '550px'] //自定义文本域宽高
+                                ,area: ['670px', '650px'] //自定义文本域宽高
                                 ,title: '导入信息确认'
                                 ,skin: 'layui-layer-prompt'
                                 ,content: content

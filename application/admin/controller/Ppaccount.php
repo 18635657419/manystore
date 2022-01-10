@@ -86,7 +86,6 @@ class Ppaccount extends Backend
         $status = input('status');
         $remark = input('remark');
         $offline_day_value = input('offline_day_value');
-        $block_remarks = input('block_remarks');
         $amountbyday = input('amountbyday');
         $orderbyday = input('orderbyday');
         $totalamount = input('totalamount');
@@ -105,18 +104,17 @@ class Ppaccount extends Backend
         foreach($alldata as $key => $onedata){
                //一行数据处理
             $new_one_data = [];
-            $data = explode("-",$onedata);
+            $data = explode(",",$onedata);
             // $this->checkdata($data);
             // 0pp帐号 1B站域名2状态3备注4总订单5总金额6每天总订单7每天总金额
             $new_one_data = [
                 'ppaccount'     => $data[0],
-                'b_domain'      => $data[1],
-                'public_key'    => $data[2],
-                'private_key'    => $data[3],
+                'b_domain'      => isset($data[1]) ? $data[1]:'',
+                'public_key'    => isset($data[2]) ? $data[2]:'',
+                'private_key'    => isset($data[3]) ? $data[3]:'',
                 'status'          => $status,
                 'remark'          => $remark,
                 'offline_day_value'          => $offline_day_value,
-                'block_remarks'          => $block_remarks,
                 'block_number'              =>$block_number,
                 'createdate'            => date('Y-m-d H:i:s'),
                 'amountbyday' => $amountbyday,
@@ -126,22 +124,21 @@ class Ppaccount extends Backend
                 'domain_id'     =>$domain_id,
 
             ];
-            
-            // if($new_one_data['b_domain']){
-            //     // 查询domain_id
-            //     $Domainmanage= new \app\admin\model\Domainmanage();
-            //     $domainData = $Domainmanage->where('name',$new_one_data['b_domain'])->find();
-            //     if($domainData){
-            //         $new_one_data['domain_id'] = $domainData['domain_id'];
-            //     }
-            // }
-           
             $add_data[] = $new_one_data;
-           
         }
+        //生成批号数据
+        $blockdata = [
+            'block_number' => $block_number,
+            'qty' => count($add_data),
+            'remarks' => $remark,
+            'domain_id' =>$domain_id,
+            'createdate'            => date('Y-m-d H:i:s'),
+        ];
+        $Ppblock  = new \app\admin\model\Ppblock ();
         //数据转化数组
         $res = $this->model->insertAll($add_data);
         if($res){
+            $Ppblock->insert($blockdata);
             $this->success("导入成功");
         }else{
             $this->success("导入失败");
@@ -150,11 +147,9 @@ class Ppaccount extends Backend
 
     public function getNextBlock(){
         $time = strtotime(date("Y-m-d 00:00:00"));
-        $block_count = $this->model->where("createdate", '>=', $time)
-                    ->where("createdate", '<', $time + 86400)
-                    ->count();
-           
-
+        $start=date("Y-m-d",time())." 0:0:0";
+        $end=date("Y-m-d",time())." 24:00:00";
+        $block_count = $this->model->whereTime('createdate', 'between', [$start, $end])->count();
         $next_count = $block_count + 1;
         $next_count = $next_count < 9 ? '0' . $next_count : $next_count;
         return date("Ymd", $time) . '.' . $next_count;
@@ -166,16 +161,10 @@ class Ppaccount extends Backend
         $value = input('value');
         $alldata = explode(PHP_EOL,$value);
         foreach($alldata as $onedata){
-            $data = explode("-",$onedata);
-            if(count($data) !== 4){
-                $this->error("格式不正确");
-            }
+            $data = explode(",",$onedata);
             foreach($data as $k=>$v){
-                if($k == 0 && $v == ''){
-                    $this->error("pp帐号不能为空");
-                }
-                if($k == 1 && $v == ''){
-                    $this->error("域名不能为空");
+                if($k == 0 &&  !filter_var($v, FILTER_VALIDATE_EMAIL)){
+                    $this->error("pp格式不正确");
                 }
             }
         }

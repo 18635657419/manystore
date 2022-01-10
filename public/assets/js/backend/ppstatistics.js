@@ -27,10 +27,11 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                     [
                         {checkbox: true},
                         {field: 'id', title: __('id')},
-                        // {field: 'ppaccount.ppaccount', title: __('pp账号'), operate: 'like'},
+                        {field: 'ppaccount.ppaccount', title: __('pp账号'), operate: 'like',visible:false},
 
-                        {field: 'ppaccount.ppaccount', title: __('pp账号'),formatter:function (value,data) {
-                            var html = '<a class="ppaccount" data-account_id='+data.account_id+' style="clore:red;cursor:pointer">'+value+'</a>'
+                        {field: 'ppaccount.ppaccount', title: __('pp账号/收款周期（天）'),searchable:false,formatter:function (value,data) {
+                            var html = '<a class="ppaccount" data-account_id='+data.account_id+' style="clore:red;cursor:pointer">'+value+' / '+data.period+'天</a>'+''
+                            
                             return html;
                         }},
                         
@@ -38,30 +39,23 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
 
                         {field: 'order_qty', title: __('order_qty'), operate: 'BETWEEN',visible:false},
                         {field: 'order_total', title: __('order_total'), operate: 'BETWEEN',visible:false},
-                        {field: 'order_total', title: __('总订单量/总金额'),searchable:false, operate: 'BETWEEN',formatter:function (value,data) {
-                            var html = data.order_qty+' / '+data.order_total
+                        {field: 'order_total', title: __('总订单量/下单成功订单量/未付款订单量/退款订单量'),searchable:false, operate: 'BETWEEN',formatter:function (value,data) {
+                            var html = data.order_qty+' / '+data.success_order_qty+' / '+data.unpaid_order_qty+' / '+data.refund_qty
                             return html;
                         }},
-                        {field: 'success_order_qty', title: __('success_order_qty'), operate: 'BETWEEN',visible:false},
-                        {field: 'success_total', title: __('success_total'), operate: 'BETWEEN',visible:false},
-                        {field: 'success_total', title: __('下单成功金额/订单量'),searchable:false, operate: 'BETWEEN',formatter:function (value,data) {
-                            var html = data.success_order_qty+' / '+data.success_total
+                        {field: 'success_total', title: __('总金额/下单成功金额/未付款金额/退款金额'),searchable:false, operate: 'BETWEEN',formatter:function (value,data) {
+                            var html = data.order_total+' / '+data.success_total+' / '+data.unpaid_total+' / '+data.refund_total
                             return html;
                         }},
-                        // {field: 'error_order_qty', title: __('error_order_qty'), operate: 'BETWEEN'},
-                        // {field: 'error_total', title: __('error_total'), operate: 'BETWEEN'},
-                        {field: 'unpaid_order_qty', title: __('unpaid_order_qty'), operate: 'BETWEEN',visible:false},
-                        {field: 'unpaid_total', title: __('unpaid_total'), operate: 'BETWEEN',visible:false},
-                        {field: 'unpaid_total', title: __('未付款订单总金额/总订单量'), searchable:false,operate: 'BETWEEN',formatter:function (value,data) {
-                            var html = data.unpaid_order_qty+' / '+data.unpaid_total
-                            return html;
-                        }},
-                        {field: 'refund_total', title: __('退款金额'), operate: 'BETWEEN',visible:false},
+                        
+                        {field: 'success_order_qty', title: __('下单成功订单量'), operate: 'BETWEEN',visible:false},
+                        {field: 'success_total', title: __('下单成功金额'), operate: 'BETWEEN',visible:false},
+                        {field: 'unpaid_order_qty', title: __('未付款订单量'), operate: 'BETWEEN',visible:false},
+                        {field: 'unpaid_total', title: __('未付款金额'), operate: 'BETWEEN',visible:false},
+                       
+                       
                         {field: 'refund_qty', title: __('退款订单量'), operate: 'BETWEEN',visible:false},
-                        {field: 'unpaid_total', title: __('退款金额/订单量'),searchable:false, operate: 'BETWEEN',formatter:function (value,data) {
-                            var html = data.refund_total+' / '+data.refund_qty
-                            return html;
-                        }},
+                        {field: 'refund_qty', title: __('退款金额'), operate: 'BETWEEN',visible:false},
                         {field: 'first_order_date', title: __('first_order_time'), operate:'RANGE',  autocomplete:false,addclass:'datetimerange',},
                         {field: 'end_order_date', title: __('end_order_time'),operate:'RANGE',  autocomplete:false,addclass:'datetimerange',},
                         {field: 'success_rate', title: __('成功率'),operate:'RANGE'},
