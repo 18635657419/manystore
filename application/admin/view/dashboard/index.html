@@ -175,8 +175,8 @@
                         <div class="sm-st clearfix">
                             <span class="sm-st-icon st-red"><i class="fa fa-users"></i></span>
                             <div class="sm-st-info">
-                                <span>{$totaluser}</span>
-                                {:__('Total user')}
+                                <span>{$pporder}</span>
+                                {:__('总订单量')}
                             </div>
                         </div>
                     </div>
@@ -184,8 +184,8 @@
                         <div class="sm-st clearfix">
                             <span class="sm-st-icon st-violet"><i class="fa fa-magic"></i></span>
                             <div class="sm-st-info">
-                                <span>{$totaladdon}</span>
-                                {:__('Total addon')}
+                                <span>{$pporderTotal}</span>
+                                {:__('总收入')}
                             </div>
                         </div>
                     </div>
@@ -193,8 +193,8 @@
                         <div class="sm-st clearfix">
                             <span class="sm-st-icon st-blue"><i class="fa fa-leaf"></i></span>
                             <div class="sm-st-info">
-                                <span>{$totalcategory}</span>
-                                {:__('Total category')}
+                                <span>{$pporderingqty}</span>
+                                {:__('正在付款订单量')}
                             </div>
                         </div>
                     </div>
@@ -202,8 +202,8 @@
                         <div class="sm-st clearfix">
                             <span class="sm-st-icon st-green"><i class="fa fa-user"></i></span>
                             <div class="sm-st-info">
-                                <span>{$totaladmin}</span>
-                                {:__('Total admin')}
+                                <span>{$pporderingTotal}</span>
+                                {:__('正在付款金额')}
                             </div>
                         </div>
                     </div>
@@ -220,8 +220,8 @@
                                     <div class="col-xs-6 stat-col">
                                         <div class="stat-icon"><i class="fa fa-rocket"></i></div>
                                         <div class="stat">
-                                            <div class="value"> {$todayusersignup}</div>
-                                            <div class="name"> {:__('Today user signup')}</div>
+                                            <div class="value"> {$pptodayqty}</div>
+                                            <div class="name"> {:__('今日订单数量')}</div>
                                         </div>
                                         <div class="progress">
                                             <div class="progress-bar progress-bar-success" style="width: 30%"></div>
@@ -230,8 +230,8 @@
                                     <div class="col-xs-6 stat-col">
                                         <div class="stat-icon"><i class="fa fa-vcard"></i></div>
                                         <div class="stat">
-                                            <div class="value"> {$todayuserlogin}</div>
-                                            <div class="name"> {:__('Today user login')}</div>
+                                            <div class="value"> {$pptodaytotal}</div>
+                                            <div class="name"> {:__('今日收入')}</div>
                                         </div>
                                         <div class="progress">
                                             <div class="progress-bar progress-bar-success" style="width: 25%"></div>
@@ -240,8 +240,8 @@
                                     <div class="col-xs-6  stat-col">
                                         <div class="stat-icon"><i class="fa fa-calendar"></i></div>
                                         <div class="stat">
-                                            <div class="value"> {$threednu}</div>
-                                            <div class="name"> {:__('Three dnu')}</div>
+                                            <div class="value"> {$ppweekqty}</div>
+                                            <div class="name"> {:__('本周订单量')}</div>
                                         </div>
                                         <div class="progress">
                                             <div class="progress-bar progress-bar-success" style="width: 25%"></div>
@@ -250,8 +250,8 @@
                                     <div class="col-xs-6 stat-col">
                                         <div class="stat-icon"><i class="fa fa-calendar-plus-o"></i></div>
                                         <div class="stat">
-                                            <div class="value"> {$sevendnu}</div>
-                                            <div class="name"> {:__('Seven dnu')}</div>
+                                            <div class="value"> {$ppweektotal}</div>
+                                            <div class="name"> {:__('本周收入')}</div>
                                         </div>
                                         <div class="progress">
                                             <div class="progress-bar progress-bar-success" style="width: 25%"></div>
@@ -260,8 +260,8 @@
                                     <div class="col-xs-6  stat-col">
                                         <div class="stat-icon"><i class="fa fa-user-circle"></i></div>
                                         <div class="stat">
-                                            <div class="value"> {$sevendau}</div>
-                                            <div class="name"> {:__('Seven dau')}</div>
+                                            <div class="value"> {$ppmonthqty}</div>
+                                            <div class="name"> {:__('本月订单量')}</div>
                                         </div>
                                         <div class="progress">
                                             <div class="progress-bar progress-bar-success" style="width: 25%"></div>
@@ -270,8 +270,8 @@
                                     <div class="col-xs-6  stat-col">
                                         <div class="stat-icon"><i class="fa fa-user-circle-o"></i></div>
                                         <div class="stat">
-                                            <div class="value"> {$thirtydau}</div>
-                                            <div class="name"> {:__('Thirty dau')}</div>
+                                            <div class="value"> {$ppmonthtotal}</div>
+                                            <div class="name"> {:__('本月收入')}</div>
                                         </div>
                                         <div class="progress">
                                             <div class="progress-bar progress-bar-success" style="width: 25%"></div>
@@ -283,7 +283,7 @@
                     </div>
                 </div>
 
-                <div class="row" style="margin-top:15px;" id="statistics">
+                <!-- <div class="row" style="margin-top:15px;" id="statistics">
 
                     <div class="col-lg-12">
                     </div>
@@ -396,7 +396,7 @@
                         {:__('Custom zone')}
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 </div>

@@ -58,8 +58,7 @@ class Ppstatistics extends Backend
                     ->order($sort, $order)
                     ->paginate($limit);
             foreach ($list as $row) {
-                
-                
+                $row['success_rate'] =  round($row['success_total']/$row['order_qty'],2) * 100 ."%"; 
             }
 
             $result = array("total" => $list->total(), "rows" => $list->items());

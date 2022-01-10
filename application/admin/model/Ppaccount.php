@@ -32,7 +32,7 @@ class Ppaccount extends Model
     
     public function getStatusList()
     {
-        return ['on' => __('Status on'), 'off' => __('Status off'), 'limited' => __('Status limited'), 'limited180' => __('Status limited180'),"offline"=>__('Status Offline')];
+        return ['on' => __('Status on'), 'off' => __('Status off'), 'limited' => __('Status limited'), 'limited180' => __('Status limited180'),"autooff"=>__('Status Offline')];
     }
 
 

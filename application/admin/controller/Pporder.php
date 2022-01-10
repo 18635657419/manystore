@@ -52,7 +52,6 @@ class Pporder extends Backend
                 return $this->selectpage();
             }
             list($where, $sort, $order, $offset, $limit) = $this->buildparams();
-
             $list = $this->model
                     ->with(['ppaccount','domainmanage'])
                     ->where($where)
@@ -70,5 +69,6 @@ class Pporder extends Backend
         }
         return $this->view->fetch();
     }
+    
 
 }
