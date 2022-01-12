@@ -43,18 +43,9 @@ class Stripe extends Api
 			$this->errorlog("stripe未授权#2");
 			$this->error("stripe未授权#2");	
 		}
-		if(! $proxy_order_id){
-			
-			$this->errorlog("stripe参数错误");
-			$this->error("stripe参数错误");	
-		}
-		
-		$existsOrder = Db::table("stripeorder")->where('domain', $domain)->where("proxy_order_id" , $proxy_order_id)->find();
+
+
 		$account = [];
-		if($existsOrder){
-			//添加可用判断为防止管理员手动关闭帐号后，还能进款
-			$account = Db::table("stripe")->where('status', 'on')->where("id", $existsOrder['stripe_id'])->find();;
-		}
 		if(! $account){
 			$account_list = Db::table("stripe")->where('status', 'on')->whereIn("id", $stripe_group['stripe_ids'])->select();;
 

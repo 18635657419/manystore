@@ -321,8 +321,6 @@ class Index extends Api
                 $save_data['first_order_date'] = $date;
             }
 
-
-
             Db::table("ppstatistics")->where('account_id', $pp_account_id)->update($save_data);
 
         }
