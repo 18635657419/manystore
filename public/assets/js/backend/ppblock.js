@@ -48,7 +48,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                 layer.open({
                     area:["90%","90%"],
                     type: 2, 
-                    content: 'http://dev.paymentcc.com/cnLyKYhOfC.php/ppaccount?block_number='+block_number+'&show_type=true' 
+                    content: '/cnLyKYhOfC.php/ppaccount?block_number='+block_number+'&show_type=true' 
                 }); 
                 
             });
