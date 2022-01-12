@@ -16,7 +16,7 @@ class Index extends Api
     protected $noNeedRight = ['*'];
 
     protected $b_domain_url = "https://{b_domain}/payment.php";
-    protected $pp_pay_max_fail_count = 4;
+    protected $pp_pay_max_fail_count = 5;
 
     /**
      * 首页
@@ -285,6 +285,8 @@ class Index extends Api
 
         if($pp_account_id){
             $pp_account_order_list = Db::table("pporder")->where('pp_id', $pp_account_id)->select();
+            Db::table("ppaccount")->where('pp_id', $pp_account_id)->update(['updatedate' => date('Y-m-d H:i:s'), 'fail_count' => 0]);
+
             $save_data = [];
 
             $date = date('Y-m-d H:i:s');
