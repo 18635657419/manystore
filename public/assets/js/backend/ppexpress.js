@@ -40,7 +40,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                         {field: 'exress_name', title: __('快递公司'), operate: 'LIKE'},
                         {field: 'block_number', title: __('批号'), operate: 'like'},
                         {field: 'remark', title: __('备注'), operate: 'LIKE'},
-                        {field: 'status', title: __('状态'), operate: 'like', searchList: {"unexecuted":__('未执行')}, formatter: Table.api.formatter.status},
+                        {field: 'status', title: __('状态'), operate: 'like', searchList: {"unexecuted":__('未执行'),'implement':__('已执行')}, formatter: Table.api.formatter.status},
                         {field: 'createdate', title: __('创建时间'), operate:'RANGE',  autocomplete:false,addclass:'datetimerange',},
                     ]
                 ]
