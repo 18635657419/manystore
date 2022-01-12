@@ -67,8 +67,8 @@ class Ppaccount extends Backend
             $end=date("Y-m-d",time())." 24:00:00";
         
             foreach ($list as $row) {
-                $allamount = $Pporder->where('pp_id',$row['pp_id'])->sum('amount');
-                $todayamount =  $Pporder->where('pp_id',$row['pp_id'])->whereTime('createdate', 'between', [$start, $end])->sum('amount');
+                $allamount = $Pporder->where('pp_id',$row['pp_id'])->where('status','in',['plated','ing'])->sum('amount');
+                $todayamount =  $Pporder->where('pp_id',$row['pp_id'])->where('status','in',['plated','ing'])->whereTime('createdate', 'between', [$start, $end])->sum('amount');
                 $row['allamount'] =  round($allamount,2);
                 $row['todayamount'] = round($todayamount,2);;
             }
@@ -112,6 +112,8 @@ class Ppaccount extends Backend
                 'b_domain'      => isset($data[1]) ? $data[1]:'',
                 'public_key'    => isset($data[2]) ? $data[2]:'',
                 'private_key'    => isset($data[3]) ? $data[3]:'',
+                'account_password'    => isset($data[4]) ? $data[4]:'',
+                'ip'    => isset($data[5]) ? $data[5]:'',
                 'status'          => $status,
                 'remark'          => $remark,
                 'offline_day_value'          => $offline_day_value,
@@ -153,8 +155,6 @@ class Ppaccount extends Backend
         $next_count = $block_count + 1;
         $next_count = $next_count < 9 ? '0' . $next_count : $next_count;
         return date("Ymd", $time) . '.' . $next_count;
-
-
     }
     // 0pp帐号 1B站域名2状态3备注4总订单5总金额6每天总订单7每天总金额
     public function checkdata(){

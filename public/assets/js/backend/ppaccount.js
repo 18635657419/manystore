@@ -57,10 +57,11 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
             }
 
             $("#Import").click(function(){
+               
                 layer.prompt({
                     formType: 2,
                     placeholder: '提示信息',
-                    title: '导入格式： pp账号,域名,公钥,私钥   一行一个账号，多个账号请回车换行',
+                    title: '导入格式： pp账号,域名,公钥,私钥,账号|密码,ip端口  一行一个账号，多个账号请回车换行',
                     maxlength:10000,
                     area: ['800px', '350px'] //自定义文本域宽高
                   }, function(value, index, elem){
@@ -125,6 +126,9 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                                     let totalamount = $("#totalamount").val();
                                     let orderbyday = $("#orderbyday").val();
                                     let amountbyday = $("#amountbyday").val();
+                                  
+
+
                                     $.ajax({
                                         url: "ppaccount/importAccount",
                                         type: "POST",
@@ -133,7 +137,11 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                                         success: function (ret) {
                                             if(ret.code){
                                                 Toastr.success(ret.msg)
-                                                $('#table').bootstrapTable('refresh');
+                                                // $('#table').bootstrapTable('refresh');
+                                                //  跳转到批号管理
+                                             
+                                                setTimeout( Backend.api.addtabs('/cnLyKYhOfC.php/ppblock?ref=addtabs',{iframeForceRefresh: true}),"20000");
+                                                   
                                                 layer.closeAll();
                                             }else{
                                                 Toastr.error(ret.msg)

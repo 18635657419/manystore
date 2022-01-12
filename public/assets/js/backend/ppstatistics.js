@@ -39,12 +39,12 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
 
                         {field: 'order_qty', title: __('order_qty'), operate: 'BETWEEN',visible:false},
                         {field: 'order_total', title: __('order_total'), operate: 'BETWEEN',visible:false},
-                        {field: 'order_total', title: __('总订单量/下单成功订单量/未付款订单量/退款订单量'),searchable:false, operate: 'BETWEEN',formatter:function (value,data) {
-                            var html = data.order_qty+' / '+data.success_order_qty+' / '+data.unpaid_order_qty+' / '+data.refund_qty
+                        {field: 'order_total', title: __('总订单量/下单成功订单量/未付款订单量'),searchable:false, operate: 'BETWEEN',formatter:function (value,data) {
+                            var html = data.order_qty+' / '+data.success_order_qty+' / '+data.unpaid_order_qty 
                             return html;
                         }},
-                        {field: 'success_total', title: __('总金额/下单成功金额/未付款金额/退款金额'),searchable:false, operate: 'BETWEEN',formatter:function (value,data) {
-                            var html = data.order_total+' / '+data.success_total+' / '+data.unpaid_total+' / '+data.refund_total
+                        {field: 'success_total', title: __('总金额/下单成功金额/未付款金额'),searchable:false, operate: 'BETWEEN',formatter:function (value,data) {
+                            var html = data.order_total+' / '+data.success_total+' / '+data.unpaid_total
                             return html;
                         }},
                         
