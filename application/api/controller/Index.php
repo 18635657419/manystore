@@ -385,8 +385,8 @@ class Index extends Api
         $store_url_info = parse_url($data['return']);
         $custom = str_replace("&quot;", '"', $data['custom']);
 
-        $order_uuid = $custom;
-//        $order_uuid = json_decode($custom, true);
+        //$order_uuid = $custom;
+        $order_uuid = json_decode($custom, true);
 
         return [
             'productname' => $product_name,

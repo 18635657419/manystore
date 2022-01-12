@@ -71,7 +71,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                 layer.open({
                     area:["90%","90%"],
                     type: 2, 
-                    content: 'http://dev.paymentcc.com/cnLyKYhOfC.php/pporder/index?pp_id='+account_id+'&show_type=true' 
+                    content: '/cnLyKYhOfC.php/pporder/index?pp_id='+account_id+'&show_type=true' 
                 }); 
                 
             });
