@@ -67,8 +67,9 @@ class Ppaccount extends Backend
             $end=date("Y-m-d",time())." 24:00:00";
         
             foreach ($list as $row) {
-                $allamount = $Pporder->where('pp_id',$row['pp_id'])->where('status','in',['plated','ing'])->sum('amount');
-                $todayamount =  $Pporder->where('pp_id',$row['pp_id'])->where('status','in',['plated','ing'])->whereTime('createdate', 'between', [$start, $end])->sum('amount');
+                $allamount = $Pporder->where('pp_id',$row['pp_id'])->where('status','in',['plated','pendding'])->sum('amount');
+
+                $todayamount =  $Pporder->where('pp_id',$row['pp_id'])->where('status','in',['plated','pendding'])->whereTime('createdate', 'between', [$start, $end])->sum('amount');
                 $row['allamount'] =  round($allamount,2);
                 $row['todayamount'] = round($todayamount,2);;
             }
