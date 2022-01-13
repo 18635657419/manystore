@@ -22,14 +22,22 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                 url: $.fn.bootstrapTable.defaults.extend.index_url,
                 pk: 'id',
                 sortName: 'id',
-                searchFormVisible:true,
                 columns: [
                     [
                         {checkbox: true},
                         {field: 'id', title: __('Id')},
                         {field: 'email', title: __('Email'), operate: 'LIKE'},
+                        // {field: 'sk_test', title: __('Sk_test'), operate: 'LIKE'},
+                        // {field: 'pk_test', title: __('Pk_test'), operate: 'LIKE'},
+                        // {field: 'sk_live', title: __('Sk_live'), operate: 'LIKE'},
+                        // {field: 'pk_live', title: __('Pk_live'), operate: 'LIKE'},
                         {field: 'status', title: __('Status'), searchList: {"on":__('Status on'),"pause":__('Status pause'),"off":__('Status off')}, formatter: Table.api.formatter.status},
+                        {field: 'totalorder', title: __('Totalorder'), operate:'BETWEEN'},
+                        {field: 'totalamount', title: __('Totalamount'), operate:'BETWEEN'},
+                        {field: 'orderbyday', title: __('Orderbyday'), operate:'BETWEEN'},
+                        {field: 'amountbyday', title: __('Amountbyday'), operate:'BETWEEN'},
                         {field: 'account_type', title: __('Account_type'), searchList: {"T7":__('Account_type t7'),"T2":__('Account_type t2')}, formatter: Table.api.formatter.normal},
+                        {field: 'fail_count', title: __('Fail_count')},
                         {field: 'createdate', title: __('Createdate'), operate:'RANGE', addclass:'datetimerange', autocomplete:false},
                         {field: 'updatedate', title: __('Updatedate'), operate:'RANGE', addclass:'datetimerange', autocomplete:false},
                         {field: 'operate', title: __('Operate'), table: table, events: Table.api.events.operate, formatter: Table.api.formatter.operate}

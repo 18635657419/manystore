@@ -32,7 +32,7 @@ class Index extends Api
         $request = Request::instance();
         $params = $request->param();
         $token = isset($params['token']) ? $params['token'] : '';
-        $pay_balance = isset($params['balance']) ? $params['balance'] : 0;
+
         $proxy_order_id = isset($params['orderid']) ? $params['orderid'] : $params['invoice'];
 
         if (!$token) {
@@ -75,10 +75,10 @@ class Index extends Api
                 $order_list = Db::table("pporder")->where('status', 'plated')->where("pp_id", $accountinfo['pp_id'])->select();
 
 
-                $total_amount = $pay_balance;
-                $total_order = 0;
-                $day_amount = $pay_balance;
-                $day_order = 0;
+                $total_amount = $product_info['total_amount'];
+                $total_order = 1;
+                $day_amount = $product_info['total_amount'];
+                $day_order = 1;
                 $today = strtotime(date("Y-m-d 00:00:00"));
                 foreach ($order_list as $orderinfo) {
                     $total_amount += $orderinfo['amount'];
@@ -89,10 +89,10 @@ class Index extends Api
                         $day_order += 1;
                     }
                 }
-                if ($total_amount < $accountinfo['totalamount'] &&
-                    $total_order < $accountinfo['totalorder'] &&
-                    $day_order < $accountinfo['orderbyday'] &&
-                    $day_amount < $accountinfo['amountbyday']
+                if ($total_amount <= $accountinfo['totalamount'] &&
+                    $total_order <= $accountinfo['totalorder'] &&
+                    $day_order <= $accountinfo['orderbyday'] &&
+                    $day_amount <= $accountinfo['amountbyday']
                 ) {
                     $allow_account_list[] = $accountinfo;
                 }
@@ -136,11 +136,12 @@ class Index extends Api
 
 
             Db::table("ppaccount")->where('pp_id', $account['pp_id'])->inc('fail_count', 1)->update(['updatedate' => date('Y-m-d H:i:s')]);
-            $pp_static = Db::table("ppstatistics")->where('account_id', $accountinfo['pp_id'])->find();
+            $pp_static = Db::table("ppstatistics")->where('account_id', $account['pp_id'])->find();
             if($pp_static){
 
                 Db::table("ppstatistics")->where('account_id', $account['pp_id'])->inc('order_qty', 1)->inc("order_total", $product_info['total_amount'])->update();
             }else{
+
                 Db::table("ppstatistics")->insert([
                     'account_id' => $account['pp_id'],
                     'order_qty' => 1,
