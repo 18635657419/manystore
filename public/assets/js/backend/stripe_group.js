@@ -30,7 +30,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                         {field: 'name', title: __('Name')},
                         {field: 'status', title: __('Status'), searchList: {"on":__('Status on'),"off":__('Status off')}, formatter: Table.api.formatter.status},
                         {field: 'token', title: __('Token')},
-                        {field: 'createdate', title: __('Createdate'), operate:'RANGE', addclass:'datetimerange', autocomplete:false},
+                        {field: 'createdate', title: __('创建时间'), operate:'RANGE', addclass:'datetimerange', autocomplete:false},
                         {field: 'stripe.email', title: __('Stripe.email'), operate: 'LIKE'},
                         {field: 'stripe.account_type', title: __('Stripe.account_type')},
                         {field: 'operate', title: __('Operate'), table: table, events: Table.api.events.operate, formatter: Table.api.formatter.operate}

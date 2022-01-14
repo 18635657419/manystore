@@ -16,12 +16,19 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
             });
 
             var table = $("#table");
+            let canshu = location.search
+            let show_type = true
+            if(canshu.indexOf("show_type") != -1 ){
+              show_type = false
+              $(".fixed-table-toolbar").hide()
+            }
 
             // 初始化表格
             table.bootstrapTable({
                 url: $.fn.bootstrapTable.defaults.extend.index_url,
                 pk: 'id',
                 sortName: 'id',
+                searchFormVisible:show_type,
                 columns: [
                     [
                         {checkbox: true},
@@ -36,6 +43,10 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                         {field: 'totalamount', title: __('Totalamount'), operate:'BETWEEN'},
                         {field: 'orderbyday', title: __('Orderbyday'), operate:'BETWEEN'},
                         {field: 'amountbyday', title: __('Amountbyday'), operate:'BETWEEN'},
+                        {field: 'allamount', title: __('总收入'), operate:'BETWEEN'},
+                        {field: 'allqty', title: __('总收入订单量'), operate:'BETWEEN'},
+                        {field: 'todayamount', title: __('今日收入'), operate:'BETWEEN'},
+                        {field: 'todayqty', title: __('今日收入订单量'), operate:'BETWEEN'},
                         {field: 'account_type', title: __('Account_type'), searchList: {"T7":__('Account_type t7'),"T2":__('Account_type t2')}, formatter: Table.api.formatter.normal},
                         {field: 'fail_count', title: __('Fail_count')},
                         {field: 'createdate', title: __('Createdate'), operate:'RANGE', addclass:'datetimerange', autocomplete:false},
@@ -44,6 +55,9 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                     ]
                 ]
             });
+            if(canshu.indexOf("show_type") != -1 ){
+                $(".fixed-table-toolbar").hide()
+            }
 
             // 为表格绑定事件
             Table.api.bindevent(table);

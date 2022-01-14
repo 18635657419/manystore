@@ -68,10 +68,13 @@ class Ppaccount extends Backend
         
             foreach ($list as $row) {
                 $allamount = $Pporder->where('pp_id',$row['pp_id'])->where('status','in',['plated','pendding'])->sum('amount');
-
                 $todayamount =  $Pporder->where('pp_id',$row['pp_id'])->where('status','in',['plated','pendding'])->whereTime('createdate', 'between', [$start, $end])->sum('amount');
+                $allqty = $Pporder->where('pp_id',$row['pp_id'])->where('status','in',['plated','pendding'])->count();
+                $todayqty =  $Pporder->where('pp_id',$row['pp_id'])->where('status','in',['plated','pendding'])->whereTime('createdate', 'between', [$start, $end])->count();
                 $row['allamount'] =  round($allamount,2);
-                $row['todayamount'] = round($todayamount,2);;
+                $row['todayamount'] = round($todayamount,2);
+                $row['allqty'] = $allqty;
+                $row['todayqty'] = $todayqty;
             }
 
             $result = array("total" => $list->total(), "rows" => $list->items());
