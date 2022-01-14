@@ -117,15 +117,15 @@ class Dashboard extends Backend
        
         $dbTableList = Db::query("SHOW TABLE STATUS");
         $this->view->assign([
-            'pporder'         => \app\admin\model\Pporder::count(),
-            'pporderTotal'    =>  round(\app\admin\model\Pporder::where('status','plated')->sum('amount'),2),
+            'pporder'         => \app\admin\model\Pporder::where('status','in',['plated','pendding'])->count(),
+            'pporderTotal'    =>  round(\app\admin\model\Pporder::where('status','in',['plated','pendding'])->sum('amount'),2),
             'pporderingqty'   =>   \app\admin\model\Pporder::where('status','ing')->count(),
             'pporderingTotal' =>   round(\app\admin\model\Pporder::where('status','ing')->sum('amount'),2),
-            'pptodayqty'      =>  \app\admin\model\Pporder::whereTime('createdate', 'between', [$start, $end])->count(),
-            'pptodaytotal'    =>  round( \app\admin\model\Pporder::where('status','plated')->whereTime('createdate', 'between', [$start, $end])->sum('amount'),2),
-            'ppweekqty'      =>  \app\admin\model\Pporder::whereTime('createdate', 'between', [$week_start, $week_end])->count(),
-            'ppweektotal'    =>  round( \app\admin\model\Pporder::where('status','plated')->whereTime('createdate', 'between', [$week_start, $week_end])->sum('amount'),2),
-            'ppmonthqty'      =>  \app\admin\model\Pporder::whereTime('createdate', 'between', [$beginThismonth, $endThismonth])->count(),
+            'pptodayqty'      =>  \app\admin\model\Pporder::whereTime('createdate', 'between', [$start, $end])->where('status','in',['plated','pendding'])->count(),
+            'pptodaytotal'    =>  round( \app\admin\model\Pporder::where('status','plated')->where('status','in',['plated','pendding'])->whereTime('createdate', 'between', [$start, $end])->sum('amount'),2),
+            'ppweekqty'      =>  \app\admin\model\Pporder::whereTime('createdate', 'between', [$week_start, $week_end])->where('status','in',['plated','pendding'])->count(),
+            'ppweektotal'    =>  round( \app\admin\model\Pporder::where('status','plated')->where('status','in',['plated','pendding'])->whereTime('createdate', 'between', [$week_start, $week_end])->sum('amount'),2),
+            'ppmonthqty'      =>  \app\admin\model\Pporder::whereTime('createdate', 'between', [$beginThismonth, $endThismonth])->where('status','in',['plated','pendding'])->count(),
             'ppmonthtotal'    =>  round( \app\admin\model\Pporder::where('status','plated')->whereTime('createdate', 'between', [$beginThismonth, $endThismonth])->sum('amount'),2),
             'totaluser'       => User::count(),
             'totaladdon'      => count(get_addon_list()),
