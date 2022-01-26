@@ -26,6 +26,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                     [
                         {checkbox: true},
                         {field: 'order_id', title: __('Order_id')},
+                        {field: 'manystore.nickname', title: __('商户名称'), operate: 'LIKE'},
                         {field: 'stripe_order_id', title: __('Stripe_order_id'), operate: 'LIKE'},
                         {field: 'ordername', title: __('Ordername'), operate: 'LIKE'},
                         {field: 'amount', title: __('Amount'), operate:'BETWEEN'},

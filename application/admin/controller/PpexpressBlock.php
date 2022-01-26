@@ -53,7 +53,7 @@ class PpexpressBlock extends Backend
             list($where, $sort, $order, $offset, $limit) = $this->buildparams();
 
             $list = $this->model
-                    ->with(['pporder'])
+                    ->with(['pporder','manystore'])
                     ->where($where)
                     ->order($sort, $order)
                     ->paginate($limit);

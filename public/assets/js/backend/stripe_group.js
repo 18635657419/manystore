@@ -27,6 +27,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                     [
                         {checkbox: true},
                         {field: 'gropu_id', title: __('Gropu_id')},
+                        {field: 'manystore.nickname', title: __('商户名称'), operate: 'LIKE'},
                         {field: 'name', title: __('Name')},
                         {field: 'status', title: __('Status'), searchList: {"on":__('Status on'),"off":__('Status off')}, formatter: Table.api.formatter.status},
                         {field: 'token', title: __('Token')},

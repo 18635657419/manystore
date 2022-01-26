@@ -30,9 +30,10 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                             {checkbox: true},
                             {field: 'order_id', title: __('Order_id')},
                             {field: 'pp_id', title: __('pp_id'),visible:false},
+                            {field: 'manystore.nickname', title: __('商户名称'), operate: 'LIKE'},
                             {field: 'ordername', title: __('Ordername'), operate: 'LIKE'},
                             {field: 'amount', title: __('Amount'), operate:'BETWEEN'},
-                            {field: 'status', title: __('Status'), searchList: {"plated":__('Status plated'),"cancal":__('Status cancal'),"ing":__('Status ing')}, formatter: Table.api.formatter.status},
+                            {field: 'status', title: __('Status'), searchList: {"plated":__('Status plated'),"cancal":__('Status cancal'),"ing":__('Status ing'),'pendding':'Pendding'}, formatter: Table.api.formatter.status},
                             {field: 'storename', title: __('Storename'), operate: 'LIKE'},
                             {field: 'proxy_order_id', title: __('Proxy_order_id')},
                             {field: 'proxyemail', title: __('Proxyemail'), operate: 'LIKE'},
@@ -46,7 +47,6 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                             {field: 'updatedate', title: __('Updatedate'), operate:'RANGE', addclass:'datetimerange', autocomplete:false},
                             {field: 'ppaccount.ppaccount', title: __('Ppaccount.ppaccount'), operate: 'LIKE'},
                             {field: 'domainmanage.name', title: __('Domainmanage.name'), operate: 'LIKE'},
-                            {field: 'operate', title: __('Operate'), table: table, events: Table.api.events.operate, formatter: Table.api.formatter.operate}
                         ]
                     ]
                 });
@@ -63,9 +63,10 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                             {checkbox: true},
                             {field: 'order_id', title: __('Order_id')},
                             {field: 'pp_id', title: __('pp_id'),visible:false},
+                            {field: 'manystore.nickname', title: __('商户名称'), operate: 'LIKE'},
                             {field: 'ordername', title: __('Ordername'), operate: 'LIKE'},
                             {field: 'amount', title: __('Amount'), operate:'BETWEEN'},
-                            {field: 'status', title: __('Status'), searchList: {"plated":__('Status plated'),"cancal":__('Status cancal'),"ing":__('Status ing')}, formatter: Table.api.formatter.status},
+                            {field: 'status', title: __('Status'), searchList: {"plated":__('Status plated'),"cancal":__('Status cancal'),"ing":__('Status ing'),'pendding':'Pendding'}, formatter: Table.api.formatter.status},
                             {field: 'storename', title: __('Storename'), operate: 'LIKE'},
                             {field: 'proxy_order_id', title: __('Proxy_order_id')},
                             {field: 'proxyemail', title: __('Proxyemail'), operate: 'LIKE'},
@@ -79,7 +80,6 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                             {field: 'updatedate', title: __('Updatedate'), operate:'RANGE', addclass:'datetimerange', autocomplete:false},
                             {field: 'ppaccount.ppaccount', title: __('Ppaccount.ppaccount'), operate: 'LIKE'},
                             {field: 'domainmanage.name', title: __('Domainmanage.name'), operate: 'LIKE'},
-                            {field: 'operate', title: __('Operate'), table: table, events: Table.api.events.operate, formatter: Table.api.formatter.operate}
                         ]
                     ]
                 });

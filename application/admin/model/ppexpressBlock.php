@@ -29,5 +29,7 @@ class ppexpressBlock extends Model
         return $this->belongsTo('Pporder', 'order_id', 'order_id', [], 'LEFT')->setEagerlyType(0);
     }
 
-  
+    public function manystore(){
+        return $this->belongsTo('Manystore', 'shop_id', 'id', [], 'LEFT')->setEagerlyType(0);
+    }
 }

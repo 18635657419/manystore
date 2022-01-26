@@ -27,8 +27,8 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                     [
                         {checkbox: true},
                         {field: 'id', title: __('id')},
+                        {field: 'manystore.nickname', title: __('商户名称'), operate: 'LIKE'},
                         {field: 'stripe.email', title: __('邮箱'), operate: 'like',visible:false},
-
                         {field: 'stripe.email', title: __('stripe账号/收款周期（天）'),searchable:false,formatter:function (value,data) {
                             var html = '<a class="ppaccount" data-email='+value+' style="clore:red;cursor:pointer">'+value+' / '+data.period+'天</a>'+''
                             

@@ -29,5 +29,7 @@ class Stripestatistics extends Model
         return $this->belongsTo('stripe', 'stripe_id', 'id', [], 'LEFT')->setEagerlyType(0);
     }
 
-  
+    public function manystore(){
+        return $this->belongsTo('Manystore', 'shop_id', 'id', [], 'LEFT')->setEagerlyType(0);
+    }
 }

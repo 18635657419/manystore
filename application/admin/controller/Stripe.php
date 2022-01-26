@@ -47,7 +47,7 @@ class Stripe extends Backend
             }
             list($where, $sort, $order, $offset, $limit) = $this->buildparams();
 
-            $list = $this->model
+            $list = $this->model->with('manystore')
                     ->where($where)
                     ->order($sort, $order)
                     ->paginate($limit);

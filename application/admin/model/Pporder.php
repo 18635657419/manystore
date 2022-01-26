@@ -32,7 +32,7 @@ class Pporder extends Model
     
     public function getStatusList()
     {
-        return ['plated' => __('Status plated'), 'cancal' => __('Status cancal'), 'ing' => __('Status ing')];
+        return ['plated' => __('Status plated'), 'cancal' => __('Status cancal'), 'ing' => __('Status ing'),'pendding' => 'Pendding'];
     }
 
 
@@ -55,5 +55,9 @@ class Pporder extends Model
     public function domainmanage()
     {
         return $this->belongsTo('Domainmanage', 'domain_id', 'domain_id', [], 'LEFT')->setEagerlyType(0);
+    }
+
+    public function manystore(){
+        return $this->belongsTo('Manystore', 'shop_id', 'id', [], 'LEFT')->setEagerlyType(0);
     }
 }

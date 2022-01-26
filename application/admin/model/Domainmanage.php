@@ -44,6 +44,10 @@ class Domainmanage extends Model
     }
 
 
+    public function manystore(){
+        return $this->belongsTo('Manystore', 'shop_id', 'shop_id', [], 'LEFT')->setEagerlyType(0);
+    }
+
 
 
 }

@@ -44,7 +44,9 @@ class StripeGroup extends Model
     }
 
 
-
+    public function manystore(){
+        return $this->belongsTo('Manystore', 'shop_id', 'id', [], 'LEFT')->setEagerlyType(0);
+    }
 
     public function stripe()
     {

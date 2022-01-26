@@ -159,15 +159,16 @@
     }
 </style>
 <div class="panel panel-default panel-intro">
-    <div class="panel-heading">
+    <!-- <div class="panel-heading">
         {:build_heading(null, false)}
         <ul class="nav nav-tabs">
             <li class="active"><a href="#one" data-toggle="tab">{:__('Dashboard')}</a></li>
             <li><a href="#two" data-toggle="tab">{:__('Custom')}</a></li>
         </ul>
-    </div>
+    </div> -->
     <div class="panel-body">
         <div id="myTabContent" class="tab-content">
+            PP订单统计
             <div class="tab-pane fade active in" id="one">
 
                 <div class="row">
@@ -282,6 +283,125 @@
                         </div>
                     </div>
                 </div>
+
+
+                <div class="panel-body">
+                    <div id="myTabContent" class="tab-content">
+                        stripe订单统计
+                        <div class="tab-pane fade active in" id="one">
+            
+                            <div class="row">
+                                <div class="col-sm-3 col-xs-6">
+                                    <div class="sm-st clearfix">
+                                        <span class="sm-st-icon st-red"><i class="fa fa-users"></i></span>
+                                        <div class="sm-st-info">
+                                            <span>{$stripeorder}</span>
+                                            {:__('总订单量')}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3 col-xs-6">
+                                    <div class="sm-st clearfix">
+                                        <span class="sm-st-icon st-violet"><i class="fa fa-magic"></i></span>
+                                        <div class="sm-st-info">
+                                            <span>{$stripeorderTotal}</span>
+                                            {:__('总收入')}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3 col-xs-6">
+                                    <div class="sm-st clearfix">
+                                        <span class="sm-st-icon st-blue"><i class="fa fa-leaf"></i></span>
+                                        <div class="sm-st-info">
+                                            <span>{$stripeorderingqty}</span>
+                                            {:__('正在付款订单量')}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3 col-xs-6">
+                                    <div class="sm-st clearfix">
+                                        <span class="sm-st-icon st-green"><i class="fa fa-user"></i></span>
+                                        <div class="sm-st-info">
+                                            <span>{$stripeorderingTotal}</span>
+                                            {:__('正在付款金额')}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+            
+                            <div class="row">
+                                <div class="col-lg-8">
+                                    <div id="stripeechart" class="btn-refresh" style="height:200px;width:100%;"></div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="card sameheight-item stats">
+                                        <div class="card-block">
+                                            <div class="row row-sm stats-container">
+                                                <div class="col-xs-6 stat-col">
+                                                    <div class="stat-icon"><i class="fa fa-rocket"></i></div>
+                                                    <div class="stat">
+                                                        <div class="value"> {$stripetodayqty}</div>
+                                                        <div class="name"> {:__('今日订单数量')}</div>
+                                                    </div>
+                                                    <div class="progress">
+                                                        <div class="progress-bar progress-bar-success" style="width: 30%"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-6 stat-col">
+                                                    <div class="stat-icon"><i class="fa fa-vcard"></i></div>
+                                                    <div class="stat">
+                                                        <div class="value"> {$stripetodaytotal}</div>
+                                                        <div class="name"> {:__('今日收入')}</div>
+                                                    </div>
+                                                    <div class="progress">
+                                                        <div class="progress-bar progress-bar-success" style="width: 25%"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-6  stat-col">
+                                                    <div class="stat-icon"><i class="fa fa-calendar"></i></div>
+                                                    <div class="stat">
+                                                        <div class="value"> {$stripeweekqty}</div>
+                                                        <div class="name"> {:__('本周订单量')}</div>
+                                                    </div>
+                                                    <div class="progress">
+                                                        <div class="progress-bar progress-bar-success" style="width: 25%"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-6 stat-col">
+                                                    <div class="stat-icon"><i class="fa fa-calendar-plus-o"></i></div>
+                                                    <div class="stat">
+                                                        <div class="value"> {$stripeweektotal}</div>
+                                                        <div class="name"> {:__('本周收入')}</div>
+                                                    </div>
+                                                    <div class="progress">
+                                                        <div class="progress-bar progress-bar-success" style="width: 25%"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-6  stat-col">
+                                                    <div class="stat-icon"><i class="fa fa-user-circle"></i></div>
+                                                    <div class="stat">
+                                                        <div class="value"> {$stripemonthqty}</div>
+                                                        <div class="name"> {:__('本月订单量')}</div>
+                                                    </div>
+                                                    <div class="progress">
+                                                        <div class="progress-bar progress-bar-success" style="width: 25%"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-6  stat-col">
+                                                    <div class="stat-icon"><i class="fa fa-user-circle-o"></i></div>
+                                                    <div class="stat">
+                                                        <div class="value"> {$stripemonthtotal}</div>
+                                                        <div class="name"> {:__('本月收入')}</div>
+                                                    </div>
+                                                    <div class="progress">
+                                                        <div class="progress-bar progress-bar-success" style="width: 25%"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
                 <!-- <div class="row" style="margin-top:15px;" id="statistics">
 

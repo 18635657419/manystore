@@ -27,6 +27,15 @@ class Ppaccount extends Backend
         parent::_initialize();
         $this->model = new \app\admin\model\Ppaccount;
         $this->view->assign("statusList", $this->model->getStatusList());
+        $this->view->assign("statusList", $this->model->getStatusList());
+        $this->view->assign("secondstatusList", $this->model->getSecondStatusList());
+        $this->view->assign("priorityList", $this->model->getPriorityList());
+        // 二级状态具体内容
+        $this->view->assign("onstatusList", $this->model->getOnStatusList());
+        $this->view->assign("offstatusList", $this->model->getOffStatusList());
+        $this->view->assign("limited180statusList", $this->model->getLimited180StatusList());
+        $this->view->assign("autooffstatusList", $this->model->getAutooffStatusList());
+        $this->view->assign("finishstatusList", $this->model->getFinishStatusList());
     }
 
     public function import()
@@ -57,8 +66,9 @@ class Ppaccount extends Backend
             }
             list($where, $sort, $order, $offset, $limit) = $this->buildparams();
 
+            // var_dump($where);die;
             $list = $this->model
-                    ->with(['domainmanage'])
+                    ->with(['domainmanage','manystore'])
                     ->where($where)
                     ->order($sort, $order)
                     ->paginate($limit);
@@ -173,7 +183,16 @@ class Ppaccount extends Backend
             }
         }
         $Domainmanage = new \app\admin\model\Domainmanage;
-        $list = $Domainmanage->where('status','on')->select();
+        // $list = $Domainmanage->where('status','on')->select();
+        $list['optionedata'] = $Domainmanage->where('status','on')->select();
+       
+        // $list['onstatusList'] = $this->model->getOnStatusList();
+        // $list['offstatusList'] = $this->model->getOffStatusList();
+        // $list['limited180statusList'] = $this->model->getLimited180StatusList();
+        // $list['autooffstatusList'] = $this->model->getAutooffStatusList();
+        // $list['finishstatusList'] = $this->model->getFinishStatusList();
+        $list['statusList'] = $this->model->getStatusList();
+        $list['secondstatusList'] = $this->model->getSecondStatusList();
        
         // 获取域名id列表
         $this->success('验证通过',"",$list);

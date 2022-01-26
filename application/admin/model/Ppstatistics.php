@@ -28,6 +28,8 @@ class Ppstatistics extends Model
     {
         return $this->belongsTo('Ppaccount', 'account_id', 'pp_id', [], 'LEFT')->setEagerlyType(0);
     }
-
+    public function manystore(){
+        return $this->belongsTo('Manystore', 'shop_id', 'id', [], 'LEFT')->setEagerlyType(0);
+    }
   
 }

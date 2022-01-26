@@ -16,12 +16,19 @@ class Stripe extends Model
     protected $table = 'stripe';
     
     // 自动写入时间戳字段
-    protected $autoWriteTimestamp = false;
 
-    // 定义时间戳字段名
-    protected $createTime = false;
-    protected $updateTime = false;
-    protected $deleteTime = false;
+     // 自动写入时间戳字段
+     protected $autoWriteTimestamp = true;
+     
+     protected $type = [
+         'createdate' => 'datetime:Y-m-d H:i:s',
+         'updatedate' => 'datetime:Y-m-d H:i:s',
+     ];
+
+     // 定义时间戳字段名
+     protected $createTime = 'createdate';
+     protected $updateTime = 'updatedate';
+     protected $deleteTime = false;
 
     // 追加属性
     protected $append = [
@@ -57,7 +64,9 @@ class Stripe extends Model
         return isset($list[$value]) ? $list[$value] : '';
     }
 
-
+    public function manystore(){
+        return $this->belongsTo('Manystore', 'shop_id', 'id', [], 'LEFT')->setEagerlyType(0);
+    }
 
 
 }

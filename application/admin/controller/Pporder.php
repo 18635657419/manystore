@@ -4,6 +4,7 @@ namespace app\admin\controller;
 
 use app\common\controller\Backend;
 
+
 /**
  * 订单管理
  *
@@ -53,14 +54,14 @@ class Pporder extends Backend
             }
             list($where, $sort, $order, $offset, $limit) = $this->buildparams();
             $list = $this->model
-                    ->with(['ppaccount','domainmanage'])
+                    ->with(['ppaccount','domainmanage','manystore'])
                     ->where($where)
                     ->order($sort, $order)
                     ->paginate($limit);
 
+
             foreach ($list as $row) {
-                
-                
+                //查询商户信息
             }
 
             $result = array("total" => $list->total(), "rows" => $list->items());

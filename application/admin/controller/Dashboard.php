@@ -81,10 +81,12 @@ class Dashboard extends Backend
         $column = [];
         $starttime = Date::unixtime('day', -6);
         $endtime = Date::unixtime('day', 0, 'end');
-        $joinlist = Db("user")->where('jointime', 'between time', [$starttime, $endtime])
-            ->field('jointime, status, COUNT(*) AS nums, DATE_FORMAT(FROM_UNIXTIME(jointime), "%Y-%m-%d") AS join_date')
+        $joinlist = \app\admin\model\Pporder::where('createdate', 'between time', [$starttime, $endtime])
+            ->where('status','in',['plated','pendding'])
+            ->field('order_id, status, COUNT(*) AS nums, DATE_FORMAT(FROM_UNIXTIME(createdate), "%Y-%m-%d") AS join_date')
             ->group('join_date')
             ->select();
+      
         for ($time = $starttime; $time <= $endtime;) {
             $column[] = date("Y-m-d", $time);
             $time += 86400;
@@ -93,6 +95,59 @@ class Dashboard extends Backend
         foreach ($joinlist as $k => $v) {
             $userlist[$v['join_date']] = $v['nums'];
         }
+
+     
+
+
+        $joinlist = \app\admin\model\Pporder::where('createdate', 'between time', [$starttime, $endtime])
+        ->where('status','in',['plated','pendding'])
+        ->field('order_id, status, sum(amount) AS nums, DATE_FORMAT(FROM_UNIXTIME(createdate), "%Y-%m-%d") AS join_date')
+        ->group('join_date')
+        ->select();
+       
+  
+        for ($time = $starttime; $time <= $endtime;) {
+            $column[] = date("Y-m-d", $time);
+            $time += 86400;
+        }
+        $incomelist = array_fill_keys($column, 0);
+        foreach ($joinlist as $k => $v) {
+            $incomelist[$v['join_date']] = $v['nums'];
+        }
+
+
+        $joinlist = \app\admin\model\Stripeorder::where('createdate', 'between time', [$starttime, $endtime])
+        ->where('status','in',['plated','pendding'])
+        ->field('order_id, status, COUNT(*) AS nums, DATE_FORMAT(FROM_UNIXTIME(createdate), "%Y-%m-%d") AS join_date')
+        ->group('join_date')
+        ->select();
+  
+        for ($time = $starttime; $time <= $endtime;) {
+            $column[] = date("Y-m-d", $time);
+            $time += 86400;
+        }
+        $stripeorder = array_fill_keys($column, 0);
+        foreach ($joinlist as $k => $v) {
+            $stripeorder[$v['join_date']] = $v['nums'];
+        }
+
+        $joinlist = \app\admin\model\Stripeorder::where('createdate', 'between time', [$starttime, $endtime])
+        ->where('status','in',['plated','pendding'])
+        ->field('order_id, status, sum(amount) AS nums, DATE_FORMAT(FROM_UNIXTIME(createdate), "%Y-%m-%d") AS join_date')
+        ->group('join_date')
+        ->select();
+       
+  
+        for ($time = $starttime; $time <= $endtime;) {
+            $column[] = date("Y-m-d", $time);
+            $time += 86400;
+        }
+        $stripeincomelist = array_fill_keys($column, 0);
+        foreach ($joinlist as $k => $v) {
+            $stripeincomelist[$v['join_date']] = $v['nums'];
+        }
+
+       
 
         // 统计查询显示
 
@@ -105,28 +160,32 @@ class Dashboard extends Backend
         //获取当前周的第几天 周日是 0 周一到周六是 1 - 6 
         $w=date('w',strtotime($sdefaultDate)); 
         //获取本周开始日期，如果$w是0，则表示周日，减去 6 天 
-        $week_start=date('Y-m-d',strtotime("$sdefaultDate -".($w ? $w - $first : 6).' days')); 
+        $week_start = date('Y-m-d',strtotime("$sdefaultDate -".($w ? $w - $first : 6).' days')); 
         //本周结束日期 
-        $week_end=date('Y-m-d',strtotime("$week_start +6 days"));
+        $week_end = date('Y-m-d',strtotime("$week_start +6 days"));
 
         $beginThismonth = date("Y-m-d",mktime(0,0,0,date('m'),1,date('Y')))." 0:0:0"; 
         $endThismonth=  date("Y-m-d",mktime(23,59,59,date('m'),date('t'),date('Y')))." 24:00:00";
 
-        
+        $shop_id = input('shop_id');
 
+        $condition = [];
+        if($shop_id){
+            $condition['shop_id'] = $shop_id;
+        }
        
         $dbTableList = Db::query("SHOW TABLE STATUS");
         $this->view->assign([
-            'pporder'         => \app\admin\model\Pporder::where('status','in',['plated','pendding'])->count(),
-            'pporderTotal'    =>  round(\app\admin\model\Pporder::where('status','in',['plated','pendding'])->sum('amount'),2),
-            'pporderingqty'   =>   \app\admin\model\Pporder::where('status','ing')->count(),
-            'pporderingTotal' =>   round(\app\admin\model\Pporder::where('status','ing')->sum('amount'),2),
-            'pptodayqty'      =>  \app\admin\model\Pporder::whereTime('createdate', 'between', [$start, $end])->where('status','in',['plated','pendding'])->count(),
-            'pptodaytotal'    =>  round( \app\admin\model\Pporder::where('status','plated')->where('status','in',['plated','pendding'])->whereTime('createdate', 'between', [$start, $end])->sum('amount'),2),
-            'ppweekqty'      =>  \app\admin\model\Pporder::whereTime('createdate', 'between', [$week_start, $week_end])->where('status','in',['plated','pendding'])->count(),
-            'ppweektotal'    =>  round( \app\admin\model\Pporder::where('status','plated')->where('status','in',['plated','pendding'])->whereTime('createdate', 'between', [$week_start, $week_end])->sum('amount'),2),
-            'ppmonthqty'      =>  \app\admin\model\Pporder::whereTime('createdate', 'between', [$beginThismonth, $endThismonth])->where('status','in',['plated','pendding'])->count(),
-            'ppmonthtotal'    =>  round( \app\admin\model\Pporder::where('status','plated')->whereTime('createdate', 'between', [$beginThismonth, $endThismonth])->sum('amount'),2),
+            'pporder'         => \app\admin\model\Pporder::where('status','in',['plated','pendding'])->where($condition)->count(),
+            'pporderTotal'    =>  round(\app\admin\model\Pporder::where('status','in',['plated','pendding'])->where($condition)->sum('amount'),2),
+            'pporderingqty'   =>   \app\admin\model\Pporder::where('status','ing')->where($condition)->count(),
+            'pporderingTotal' =>   round(\app\admin\model\Pporder::where('status','ing')->where($condition)->sum('amount'),2),
+            'pptodayqty'      =>  \app\admin\model\Pporder::whereTime('createdate', 'between', [$start, $end])->where('status','in',['plated','pendding'])->where($condition)->count(),
+            'pptodaytotal'    =>  round( \app\admin\model\Pporder::where('status','in',['plated','pendding'])->whereTime('createdate', 'between', [$start, $end])->where($condition)->sum('amount'),2),
+            'ppweekqty'      =>  \app\admin\model\Pporder::whereTime('createdate', 'between', [$week_start, $week_end])->where('status','in',['plated','pendding'])->where($condition)->count(),
+            'ppweektotal'    =>  round( \app\admin\model\Pporder::where('status','in',['plated','pendding'])->whereTime('createdate', 'between', [$week_start, $week_end])->where($condition)->sum('amount'),2),
+            'ppmonthqty'      =>  \app\admin\model\Pporder::whereTime('createdate', 'between', [$beginThismonth, $endThismonth])->where('status','in',['plated','pendding'])->where($condition)->count(),
+            'ppmonthtotal'    =>  round( \app\admin\model\Pporder::where('status','in',['plated','pendding'])->whereTime('createdate', 'between', [$beginThismonth, $endThismonth])->where($condition)->sum('amount'),2),
             'totaluser'       => User::count(),
             'totaladdon'      => count(get_addon_list()),
             'totaladmin'      => Admin::count(),
@@ -145,10 +204,27 @@ class Dashboard extends Backend
             'attachmentsize'  => Attachment::sum('filesize'),
             'picturenums'     => Attachment::where('mimetype', 'like', 'image/%')->count(),
             'picturesize'     => Attachment::where('mimetype', 'like', 'image/%')->sum('filesize'),
-        ]);
+            // stripe订单统计
+            'stripeorder'         => \app\admin\model\Stripeorder::where('status','plated')->where($condition)->count(),
+            'stripeorderTotal'    =>  round(\app\admin\model\Stripeorder::where('status','plated')->where($condition)->sum('amount'),2),
+            'stripeorderingqty'   =>   \app\admin\model\Stripeorder::where('status','ing')->where($condition)->count(),
+            'stripeorderingTotal' =>   round(\app\admin\model\Stripeorder::where('status','ing')->where($condition)->sum('amount'),2),
+            'stripetodayqty'      =>  \app\admin\model\Stripeorder::whereTime('createdate', 'between', [$start, $end])->where('status','plated')->where($condition)->count(),
+            'stripetodaytotal'    =>  round( \app\admin\model\Stripeorder::where('status','plated')->where('status','plated')->whereTime('createdate', 'between', [$start, $end])->where($condition)->sum('amount'),2),
+            'stripeweekqty'      =>  \app\admin\model\Stripeorder::whereTime('createdate', 'between', [$week_start, $week_end])->where('status','plated')->where($condition)->count(),
+            'stripeweektotal'    =>  round( \app\admin\model\Stripeorder::where('status','plated')->where('status','plated')->whereTime('createdate', 'between', [$week_start, $week_end])->where($condition)->sum('amount'),2),
+            'stripemonthqty'      =>  \app\admin\model\Stripeorder::whereTime('createdate', 'between', [$beginThismonth, $endThismonth])->where('status','plated')->where($condition)->count(),
+            'stripemonthtotal'    =>  round( \app\admin\model\Stripeorder::where('status','plated')->whereTime('createdate', 'between', [$beginThismonth, $endThismonth])->where($condition)->sum('amount'),2),
 
+
+
+        ]);
         $this->assignconfig('column', array_keys($userlist));
         $this->assignconfig('userdata', array_values($userlist));
+        $this->assignconfig('incomelist', array_values($incomelist));
+
+        $this->assignconfig('stripeorder', array_values($stripeorder));
+        $this->assignconfig('stripeincomelist', array_values($stripeincomelist));
 
         return $this->view->fetch();
     }

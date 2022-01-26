@@ -28,6 +28,7 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                     [
                         {checkbox: true},
                         {field: 'id', title: __('id')},
+                        {field: 'manystore.nickname', title: __('商户名称'), operate: 'LIKE'},
                         {field: 'block_number', title: __('批号'), operate: 'like',formatter:function (value,data) {
                             var html = '<a class="ppaccount" data-block_number='+value+' style="clore:red;cursor:pointer">'+value+'</a>'+''
                             return html;

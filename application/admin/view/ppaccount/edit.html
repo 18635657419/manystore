@@ -25,6 +25,50 @@
         </div>
     </div>
     <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('二级状态')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            
+            <div class="radio" id="onstatus" style="display: none;">
+            {foreach name="onstatusList" item="vo"}
+            <label for="row[second_status]-{$key}"><input id="row[second_status]-{$key}" name="row[second_status]" type="radio" value="{$key}" {in name="key" value="$row.second_status"}checked{/in} /> {$vo}</label> 
+            {/foreach}
+            </div>
+            <div class="radio" id="offstatus" style="display: none;">
+                {foreach name="offstatusList" item="vo"}
+                <label for="row[second_status]-{$key}"><input id="row[second_status]-{$key}" name="row[second_status]" type="radio" value="{$key}" {in name="key" value="$row.second_status"}checked{/in} /> {$vo}</label> 
+                {/foreach}
+            </div>
+            <div class="radio" id="limitedstatus" style="display: none;">
+                {foreach name="limited180statusList" item="vo"}
+                <label for="row[second_status]-{$key}"><input id="row[second_status]-{$key}" name="row[second_status]" type="radio" value="{$key}" {in name="key" value="$row.second_status"}checked{/in} /> {$vo}</label> 
+                {/foreach}
+            </div>
+            <div class="radio" id="autooffstatus" style="display: none;">
+                {foreach name="autooffstatusList" item="vo"}
+                <label for="row[second_status]-{$key}"><input id="row[second_status]-{$key}" name="row[second_status]" type="radio" value="{$key}" {in name="key" value="$row.second_status"}checked{/in} /> {$vo}</label> 
+                {/foreach}
+            </div>
+            <div class="radio" id="finishstatus" style="display: none;">
+                {foreach name="finishstatusList" item="vo"}
+                <label for="row[second_status]-{$key}"><input id="row[second_status]-{$key}" name="row[second_status]" type="radio" value="{$key}" {in name="key" value="$row.second_status"}checked{/in} /> {$vo}</label> 
+                {/foreach}
+            </div>
+
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('优先级')}:</label>
+        <div class="col-xs-12 col-sm-8">
+
+            <div class="radio">
+                {foreach name="priorityList" item="vo"}
+                <label for="row[priority]-{$key}"><input id="row[priority]-{$key}" name="row[priority]" type="radio" value="{$key}" {in name="key" value="$row.priority"}checked{/in} /> {$vo}</label>
+                {/foreach}
+            </div>
+
+        </div>
+    </div>
+    <div class="form-group">
         <label class="control-label col-xs-12 col-sm-2">{:__('Remark')}:</label>
         <div class="col-xs-12 col-sm-8">
             <textarea id="c-remark" data-rule="required" class="form-control " rows="5" name="row[remark]" cols="50">{$row.remark|htmlentities}</textarea>

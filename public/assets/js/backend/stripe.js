@@ -33,6 +33,8 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                     [
                         {checkbox: true},
                         {field: 'id', title: __('Id')},
+                        {field: 'shop_id', title: __('商戶id'),visible:false,},
+                        {field: 'manystore.nickname', title: __('商户名称'), operate: 'LIKE'},
                         {field: 'email', title: __('Email'), operate: 'LIKE'},
                         // {field: 'sk_test', title: __('Sk_test'), operate: 'LIKE'},
                         // {field: 'pk_test', title: __('Pk_test'), operate: 'LIKE'},

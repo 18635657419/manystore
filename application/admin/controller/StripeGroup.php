@@ -54,7 +54,7 @@ class StripeGroup extends Backend
             list($where, $sort, $order, $offset, $limit) = $this->buildparams();
 
             $list = $this->model
-                    ->with(['stripe'])
+                    ->with(['stripe','manystore'])
                     ->where($where)
                     ->order($sort, $order)
                     ->paginate($limit);

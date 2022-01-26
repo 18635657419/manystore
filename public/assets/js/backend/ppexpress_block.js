@@ -28,12 +28,14 @@ define(['jquery', 'bootstrap', 'backend', 'table', 'form'], function ($, undefin
                     [
                         {checkbox: true},
                         {field: 'id', title: __('id')},
+                        {field: 'manystore.nickname', title: __('商户名称'), operate: 'LIKE'},
                         {field: 'block_number', title: __('批号'), operate: 'like',formatter:function (value,data) {
                             var html = '<a class="ppaccount" data-block_number='+value+' style="clore:red;cursor:pointer">'+value+'</a>'+''
                             return html;
                         }},
                         {field: 'qty', title: __('导入数量'), operate: 'BETWEEN'},
                         {field: 'remark', title: __('备注'), operate: 'like'},
+                        {field: 'status', title: __('Status'), searchList: {"unexecuted":__('未执行'),"finish":__('完成'),"error":__('错误')}, formatter: Table.api.formatter.status},
                         {field: 'createdate', title: __('创建时间'), operate:'RANGE',  autocomplete:false,addclass:'datetimerange',},
 
                      

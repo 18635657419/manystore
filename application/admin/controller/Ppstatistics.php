@@ -53,7 +53,7 @@ class Ppstatistics extends Backend
             list($where, $sort, $order, $offset, $limit) = $this->buildparams();
 
             $list = $this->model
-                    ->with(['ppaccount'])
+                    ->with(['ppaccount','manystore'])
                     ->where($where)
                     ->order($sort, $order)
                     ->paginate($limit);
